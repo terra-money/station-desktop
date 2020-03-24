@@ -30,10 +30,16 @@ const createWindow = () => {
   })
 }
 
+const onCertError = (event, webContents, url, error, certificate, callback) => {
+  event.preventDefault()
+  callback(true)
+}
+
 /* app */
 app.on('ready', createWindow)
 app.on('window-all-closed', () => app.quit())
 app.on('activate', () => win === null && createWindow())
+isLocal && app.on('certificate-error', onCertError)
 
 /* ipc */
 const { signTx, generateAddresses } = require('./station')

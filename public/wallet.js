@@ -17,7 +17,7 @@ async function generateWalletFromSeed(mnemonic, bip) {
   return {
     privateKey: privateKey.toString(`hex`),
     publicKey: publicKey.toString(`hex`),
-    terraAddress
+    terraAddress,
   }
 }
 
@@ -70,7 +70,7 @@ function prepareSignBytes(jsonTx) {
   const sorted = {}
   Object.keys(jsonTx)
     .sort()
-    .forEach(key => {
+    .forEach((key) => {
       if (jsonTx[key] === undefined || jsonTx[key] === null) return
       sorted[key] = prepareSignBytes(jsonTx[key])
     })
@@ -80,7 +80,7 @@ function prepareSignBytes(jsonTx) {
 function createSignMessage(jsonTx, { sequence, account_number, chain_id }) {
   const fee = {
     amount: jsonTx.fee.amount || [],
-    gas: jsonTx.fee.gas
+    gas: jsonTx.fee.gas,
   }
 
   return JSON.stringify(
@@ -90,7 +90,7 @@ function createSignMessage(jsonTx, { sequence, account_number, chain_id }) {
       msgs: jsonTx.msg,
       sequence,
       account_number,
-      chain_id
+      chain_id,
     })
   )
 }
@@ -108,8 +108,8 @@ function createSignature(signature, sequence, account_number, publicKey) {
     sequence,
     pub_key: {
       type: `tendermint/PubKeySecp256k1`,
-      value: publicKey.toString(`base64`)
-    }
+      value: publicKey.toString(`base64`),
+    },
   }
 }
 
@@ -128,14 +128,14 @@ function sign(jsonTx, wallet, requestMetaData) {
 
 function createSignedTx(tx, signature) {
   return Object.assign({}, tx, {
-    signatures: [signature]
+    signatures: [signature],
   })
 }
 
 function createBroadcastBody(signedTx, returnType = `sync`) {
   return JSON.stringify({
     tx: signedTx,
-    mode: returnType
+    mode: returnType,
   })
 }
 
@@ -151,5 +151,5 @@ module.exports = {
   createSignature,
   sign,
   createSignedTx,
-  createBroadcastBody
+  createBroadcastBody,
 }

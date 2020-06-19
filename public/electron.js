@@ -1,7 +1,7 @@
 const { app, shell, BrowserWindow, ipcMain } = require('electron')
 
 /* version */
-const version = '1.0.0'
+const version = '1.1.0'
 const isLocal = process.env.LOCAL
 
 /* window */
@@ -14,10 +14,12 @@ const createWindow = () => {
     minHeight: 480,
     maxWidth: 1440,
     titleBarStyle: 'hidden',
-    webPreferences: { nodeIntegration: true, webSecurity: false }
+    webPreferences: { nodeIntegration: true, webSecurity: false },
   }
 
-  const url = isLocal ? 'https://local.terra.money:3000' : 'https://station.terra.money'
+  const url = isLocal
+    ? 'https://local.terra.money:3000'
+    : 'https://station.terra.money'
 
   win = new BrowserWindow(config)
   win.removeMenu()
@@ -58,7 +60,7 @@ ipcMain.on('generateAddresses', async (event, seed) => {
   event.returnValue = await generateAddresses(seed)
 })
 
-ipcMain.on('generateSeed', event => {
+ipcMain.on('generateSeed', (event) => {
   event.returnValue = generateSeed()
 })
 
@@ -72,4 +74,40 @@ ipcMain.on('encrypt', (event, [msg, pass]) => {
 
 ipcMain.on('decrypt', (event, [msg, pass]) => {
   event.returnValue = decrypt(msg, pass)
+})
+
+let ledgerTransport = null
+let ledgerApp = null
+
+ipcMain.on('createLedgerApp', async (event, [timeout]) => {
+  const TransportNodeHid = require('@ledgerhq/hw-transport-node-hid').default
+  const TerraApp = require('@terra-money/ledger-terra-js').default
+
+  await TransportNodeHid.create(timeout)
+    .then(async (t) => {
+      ledgerTransport = t
+      ledgerApp = new TerraApp(ledgerTransport)
+      await ledgerApp.initialize()
+      ;[
+        'getInfo',
+        'getVersion',
+        'getDeviceInfo',
+        'getPublicKey',
+        'getAddressAndPubKey',
+        'showAddressAndPubKey',
+        'sign',
+      ].forEach((methodName) => {
+        ipcMain.on(methodName, async (event, args) => {
+          console.log(`${methodName} called!`)
+          const ret = await ledgerApp[methodName](...args)
+          console.log('ret', ret)
+          event.returnValue = ret
+        })
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
+  event.returnValue = null
 })

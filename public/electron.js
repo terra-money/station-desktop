@@ -76,38 +76,62 @@ ipcMain.on('decrypt', (event, [msg, pass]) => {
   event.returnValue = decrypt(msg, pass)
 })
 
-let ledgerTransport = null
-let ledgerApp = null
-
-ipcMain.on('createLedgerApp', async (event, [timeout]) => {
+/**
+ * Ledger integration
+ */
+async function callLedger(fn) {
   const TransportNodeHid = require('@ledgerhq/hw-transport-node-hid').default
-  const TerraApp = require('@terra-money/ledger-terra-js').default
 
-  await TransportNodeHid.create(timeout)
-    .then(async (t) => {
-      ledgerTransport = t
-      ledgerApp = new TerraApp(ledgerTransport)
-      await ledgerApp.initialize()
-      ;[
-        'getInfo',
-        'getVersion',
-        'getDeviceInfo',
-        'getPublicKey',
-        'getAddressAndPubKey',
-        'showAddressAndPubKey',
-        'sign',
-      ].forEach((methodName) => {
-        ipcMain.on(methodName, async (event, args) => {
-          console.log(`${methodName} called!`)
-          const ret = await ledgerApp[methodName](...args)
-          console.log('ret', ret)
-          event.returnValue = ret
-        })
+  return await TransportNodeHid
+    .create(10000)
+    .then(async transport => {
+      const TerraApp = require('@terra-money/ledger-terra-js').default
+      const app = new TerraApp(transport)
+    
+      transport.on('disconnect', async () => {
+        console.log('ledger transport disconnected!')
       })
+    
+      await app.initialize()
+      const ret = await fn(app)
+      await transport.close()
+      return ret;
     })
-    .catch((err) => {
-      console.log(err)
+    .catch(err => {
+      return {
+        error_message: err.message
+      }
     })
+}
 
-  event.returnValue = null
+ipcMain.on('ledger:initialize', async (event) => {
+  event.returnValue = await callLedger(app => app.initialize())
+})
+
+ipcMain.on('ledger:getInfo', async (event) => {
+  event.returnValue = await callLedger(app => app.getInfo())
+})
+
+ipcMain.on('ledger:getVersion', async (event) => {
+  event.returnValue = await callLedger(app => app.getVersion())
+})
+
+ipcMain.on('ledger:getDeviceInfo', async (event) => {
+  event.returnValue = await callLedger(app => app.getDeviceInfo())
+})
+
+ipcMain.on('ledger:getPublicKey', async (event, args) => {
+  event.returnValue = await callLedger(app => app.getPublicKey(...args))
+})
+
+ipcMain.on('ledger:getAddressAndPubKey', async (event, args) => {
+  event.returnValue = await callLedger(app => app.getAddressAndPubKey(...args))
+})
+
+ipcMain.on('ledger:showAddressAndPubKey', async (event, args) => {
+  event.returnValue = await callLedger(app => app.showAddressAndPubKey(...args))
+})
+
+ipcMain.on('ledger:sign', async (event, args) => {
+  event.returnValue = await callLedger(app => app.sign(...args))
 })

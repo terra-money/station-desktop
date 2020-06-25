@@ -37,7 +37,6 @@
     "bip32": "^2.0.4",
     "bip39": "^3.0.2",
     "crypto-js": "^3.1.9-1",
-    "electron-rebuild": "^1.11.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
@@ -46,6 +45,7 @@
   "devDependencies": {
     "electron": "^5.0.8",
     "electron-builder": "^21.1.5",
+    "electron-rebuild": "^1.11.0",
     "prettier": "^2.0.5"
   },
   "scripts": {

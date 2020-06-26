@@ -9,7 +9,7 @@ function encrypt(msg, pass) {
 
     const key = CryptoJS.PBKDF2(pass, salt, {
       keySize: keySize / 32,
-      iterations: iterations
+      iterations: iterations,
     })
 
     const iv = CryptoJS.lib.WordArray.random(128 / 8)
@@ -17,7 +17,7 @@ function encrypt(msg, pass) {
     const encrypted = CryptoJS.AES.encrypt(msg, key, {
       iv: iv,
       padding: CryptoJS.pad.Pkcs7,
-      mode: CryptoJS.mode.CBC
+      mode: CryptoJS.mode.CBC,
     })
 
     const transitmessage =
@@ -36,13 +36,13 @@ function decrypt(transitmessage, pass) {
 
     const key = CryptoJS.PBKDF2(pass, salt, {
       keySize: keySize / 32,
-      iterations: iterations
+      iterations: iterations,
     })
 
     const decrypted = CryptoJS.AES.decrypt(encrypted, key, {
       iv: iv,
       padding: CryptoJS.pad.Pkcs7,
-      mode: CryptoJS.mode.CBC
+      mode: CryptoJS.mode.CBC,
     }).toString(CryptoJS.enc.Utf8)
     return decrypted
   } catch (error) {
@@ -52,5 +52,5 @@ function decrypt(transitmessage, pass) {
 
 module.exports = {
   encrypt,
-  decrypt
+  decrypt,
 }

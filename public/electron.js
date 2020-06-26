@@ -1,7 +1,7 @@
 const { app, shell, BrowserWindow, ipcMain } = require('electron')
 
 /* version */
-const version = '1.0.0'
+const version = '1.1.0'
 const isLocal = process.env.LOCAL
 
 /* window */
@@ -14,10 +14,12 @@ const createWindow = () => {
     minHeight: 480,
     maxWidth: 1440,
     titleBarStyle: 'hidden',
-    webPreferences: { nodeIntegration: true, webSecurity: false }
+    webPreferences: { nodeIntegration: true, webSecurity: false },
   }
 
-  const url = isLocal ? 'https://local.terra.money:3000' : 'https://station.terra.money'
+  const url = isLocal
+    ? 'https://local.terra.money:3000'
+    : 'https://station.terra.money'
 
   win = new BrowserWindow(config)
   win.removeMenu()
@@ -30,10 +32,16 @@ const createWindow = () => {
   })
 }
 
+const onCertError = (event, webContents, url, error, certificate, callback) => {
+  event.preventDefault()
+  callback(true)
+}
+
 /* app */
 app.on('ready', createWindow)
 app.on('window-all-closed', () => app.quit())
 app.on('activate', () => win === null && createWindow())
+isLocal && app.on('certificate-error', onCertError)
 
 /* ipc */
 const { signTx, generateAddresses } = require('./station')
@@ -52,7 +60,7 @@ ipcMain.on('generateAddresses', async (event, seed) => {
   event.returnValue = await generateAddresses(seed)
 })
 
-ipcMain.on('generateSeed', event => {
+ipcMain.on('generateSeed', (event) => {
   event.returnValue = generateSeed()
 })
 
@@ -66,4 +74,59 @@ ipcMain.on('encrypt', (event, [msg, pass]) => {
 
 ipcMain.on('decrypt', (event, [msg, pass]) => {
   event.returnValue = decrypt(msg, pass)
+})
+
+/**
+ * Ledger integration
+ */
+async function callLedger(fn) {
+  const TransportNodeHid = require('@ledgerhq/hw-transport-node-hid').default
+
+  return await TransportNodeHid
+    .create(10000, 20000)
+    .then(async transport => {
+      const TerraApp = require('@terra-money/ledger-terra-js').default
+      const app = new TerraApp(transport)
+      await app.initialize()
+      const ret = await fn(app)
+      await transport.close()
+      return ret;
+    })
+    .catch(err => {
+      return {
+        error_message: err.message
+      }
+    })
+}
+
+ipcMain.on('ledger:initialize', async (event) => {
+  event.returnValue = await callLedger(app => app.initialize())
+})
+
+ipcMain.on('ledger:getInfo', async (event) => {
+  event.returnValue = await callLedger(app => app.getInfo())
+})
+
+ipcMain.on('ledger:getVersion', async (event) => {
+  event.returnValue = await callLedger(app => app.getVersion())
+})
+
+ipcMain.on('ledger:getDeviceInfo', async (event) => {
+  event.returnValue = await callLedger(app => app.getDeviceInfo())
+})
+
+ipcMain.on('ledger:getPublicKey', async (event, args) => {
+  event.returnValue = await callLedger(app => app.getPublicKey(...args))
+})
+
+ipcMain.on('ledger:getAddressAndPubKey', async (event, args) => {
+  event.returnValue = await callLedger(app => app.getAddressAndPubKey(...args))
+})
+
+ipcMain.on('ledger:showAddressAndPubKey', async (event, args) => {
+  event.returnValue = await callLedger(app => app.showAddressAndPubKey(...args))
+})
+
+ipcMain.on('ledger:sign', async (event, args) => {
+  event.returnValue = await callLedger(app => app.sign(...args))
 })

@@ -6,8 +6,8 @@ const signTx = ({ wallet, tx, request }) => {
   return w.createBroadcastBody(signedTx, 'block')
 }
 
-const generateAddresses = async mnemonic => {
-  const generateAddress = async n => {
+const generateAddresses = async (mnemonic) => {
+  const generateAddress = async (n) => {
     const { terraAddress } = await w.generateWalletFromSeed(mnemonic, n)
     return terraAddress
   }
@@ -17,5 +17,5 @@ const generateAddresses = async mnemonic => {
 
 module.exports = {
   signTx,
-  generateAddresses
+  generateAddresses,
 }

@@ -83,15 +83,10 @@ async function callLedger(fn) {
   const TransportNodeHid = require('@ledgerhq/hw-transport-node-hid').default
 
   return await TransportNodeHid
-    .create(10000)
+    .create(10000, 20000)
     .then(async transport => {
       const TerraApp = require('@terra-money/ledger-terra-js').default
       const app = new TerraApp(transport)
-    
-      transport.on('disconnect', async () => {
-        console.log('ledger transport disconnected!')
-      })
-    
       await app.initialize()
       const ret = await fn(app)
       await transport.close()

@@ -44,9 +44,8 @@
     "typescript": "^3.9.5"
   },
   "devDependencies": {
-    "electron": "^5.0.8",
-    "electron-builder": "^21.1.5",
-    "electron-rebuild": "^1.11.0",
+    "electron": "^8",
+    "electron-builder": "^22",
     "prettier": "^2.0.5"
   },
   "scripts": {
@@ -55,7 +54,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prebuild": "react-scripts build",
-    "postinstall": "electron-rebuild",
+    "postinstall": "electron-builder install-app-deps",
     "prettier": "prettier --write public/**/*.js"
   },
   "eslintConfig": {

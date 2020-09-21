@@ -1,51 +1,45 @@
-const CryptoJS = require('crypto-js')
+const crypto = require('crypto')
 
-const keySize = 256
-const iterations = 100
+const KEY_SIZE = 256
+const ITERATIONS = 100
 
-function encrypt(msg, pass) {
+function encrypt(plainText, pass) {
   try {
-    const salt = CryptoJS.lib.WordArray.random(128 / 8)
+    const salt = crypto.randomBytes(16)
+    const iv = crypto.randomBytes(16)
+    const key = crypto.pbkdf2Sync(pass, salt, ITERATIONS, KEY_SIZE / 8, 'sha1')
 
-    const key = CryptoJS.PBKDF2(pass, salt, {
-      keySize: keySize / 32,
-      iterations: iterations,
-    })
+    const cipher = crypto.createCipheriv('AES-256-CBC', key, iv)
+    const encryptedText = Buffer.concat([
+      cipher.update(plainText),
+      cipher.final(),
+    ]).toString('base64')
 
-    const iv = CryptoJS.lib.WordArray.random(128 / 8)
-
-    const encrypted = CryptoJS.AES.encrypt(msg, key, {
-      iv: iv,
-      padding: CryptoJS.pad.Pkcs7,
-      mode: CryptoJS.mode.CBC,
-    })
-
-    const transitmessage =
-      salt.toString() + iv.toString() + encrypted.toString()
-    return transitmessage
+    // salt, iv will be hex 32 in length
+    // append them to the ciphertext for use  in decryption
+    return salt.toString('hex') + iv.toString('hex') + encryptedText
   } catch (error) {
+    console.error(error.message)
     return ''
   }
 }
 
 function decrypt(transitmessage, pass) {
   try {
-    const salt = CryptoJS.enc.Hex.parse(transitmessage.substr(0, 32))
-    const iv = CryptoJS.enc.Hex.parse(transitmessage.substr(32, 32))
-    const encrypted = transitmessage.substring(64)
+    const salt = Buffer.from(transitmessage.substr(0, 32), 'hex')
+    const iv = Buffer.from(transitmessage.substr(32, 32), 'hex')
+    const key = crypto.pbkdf2Sync(pass, salt, ITERATIONS, KEY_SIZE / 8, 'sha1')
 
-    const key = CryptoJS.PBKDF2(pass, salt, {
-      keySize: keySize / 32,
-      iterations: iterations,
-    })
+    const encryptedText = transitmessage.substring(64)
+    const cipher = crypto.createDecipheriv('AES-256-CBC', key, iv)
+    const decryptedText = Buffer.concat([
+      cipher.update(encryptedText, 'base64'),
+      cipher.final(),
+    ]).toString()
 
-    const decrypted = CryptoJS.AES.decrypt(encrypted, key, {
-      iv: iv,
-      padding: CryptoJS.pad.Pkcs7,
-      mode: CryptoJS.mode.CBC,
-    }).toString(CryptoJS.enc.Utf8)
-    return decrypted
+    return decryptedText
   } catch (error) {
+    console.error(error.message)
     return ''
   }
 }

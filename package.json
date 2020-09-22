@@ -44,7 +44,7 @@
     "typescript": "^4"
   },
   "devDependencies": {
-    "electron": "^8",
+    "electron": "^9",
     "electron-builder": "^22",
     "prettier": "^2.0.5"
   },

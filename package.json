@@ -1,6 +1,6 @@
 {
   "name": "station-electron",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A desktop application to interact with Terra Core.",
   "author": "Terra <engineering@terra.money> (https://terra.money)",
   "license": "ISC",

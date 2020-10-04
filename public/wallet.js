@@ -98,7 +98,7 @@ function signWithPrivateKey(signMessage, privateKey) {
     signHash,
     Buffer.from(privateKey, `hex`)
   )
-  return signature
+  return Buffer.from(signature)
 }
 
 function createSignature(signature, sequence, account_number, publicKey) {

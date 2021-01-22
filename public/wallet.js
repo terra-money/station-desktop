@@ -2,12 +2,10 @@ const bip39 = require('bip39')
 const bip32 = require('bip32')
 const bech32 = require('bech32')
 const secp256k1 = require('secp256k1')
-const sha256 = require('crypto-js/sha256')
-const ripemd160 = require('crypto-js/ripemd160')
-const CryptoJS = require('crypto-js')
+const crypto = require('crypto')
 
 function standardRandomBytesFunc(size) {
-  return CryptoJS.lib.WordArray.random(size).toString()
+  return crypto.randomBytes(size)
 }
 
 async function generateWalletFromSeed(mnemonic, bip) {
@@ -22,7 +20,7 @@ async function generateWalletFromSeed(mnemonic, bip) {
 }
 
 function generateSeed(randomBytesFunc = standardRandomBytesFunc) {
-  const randomBytes = Buffer.from(randomBytesFunc(32), `hex`)
+  const randomBytes = randomBytesFunc(32)
   if (randomBytes.length !== 32) throw Error(`Entropy has incorrect length`)
   return bip39.entropyToMnemonic(randomBytes.toString(`hex`))
 }
@@ -33,10 +31,9 @@ async function generateWallet(randomBytesFunc = standardRandomBytesFunc) {
 }
 
 function createTerraAddress(publicKey) {
-  const message = CryptoJS.enc.Hex.parse(publicKey.toString(`hex`))
-  const hash = ripemd160(sha256(message)).toString()
-  const address = Buffer.from(hash, `hex`)
-  return bech32ify(address, `terra`)
+  const sha256 = crypto.createHash('sha256').update(publicKey).digest()
+  const address = crypto.createHash('ripemd160').update(sha256).digest()
+  return bech32ify(address, 'terra')
 }
 
 async function deriveMasterKey(mnemonic) {
@@ -49,7 +46,7 @@ async function deriveMasterKey(mnemonic) {
 function deriveKeypair(masterKey, bip) {
   const terraHD = masterKey.derivePath(`m/44'/${bip || 330}'/0'/0/0`)
   const privateKey = terraHD.privateKey
-  const publicKey = secp256k1.publicKeyCreate(privateKey, true)
+  const publicKey = Buffer.from(secp256k1.publicKeyCreate(privateKey, true))
   return { privateKey, publicKey }
 }
 
@@ -96,9 +93,12 @@ function createSignMessage(jsonTx, { sequence, account_number, chain_id }) {
 }
 
 function signWithPrivateKey(signMessage, privateKey) {
-  const signHash = Buffer.from(sha256(signMessage).toString(), `hex`)
-  const { signature } = secp256k1.sign(signHash, Buffer.from(privateKey, `hex`))
-  return signature
+  const signHash = crypto.createHash('sha256').update(signMessage).digest()
+  const { signature } = secp256k1.ecdsaSign(
+    signHash,
+    Buffer.from(privateKey, `hex`)
+  )
+  return Buffer.from(signature)
 }
 
 function createSignature(signature, sequence, account_number, publicKey) {

@@ -8,17 +8,17 @@ const isLocal = process.env.LOCAL
 let win
 const createWindow = () => {
   const config = {
-    width: 1440,
+    width: isLocal ? 1600 : 1440,
     height: 960,
     minWidth: 320,
     minHeight: 480,
-    maxWidth: 1440,
+    maxWidth: isLocal ? 3840 : 1440,
     titleBarStyle: 'hidden',
     webPreferences: { nodeIntegration: true, webSecurity: false },
   }
 
   const url = isLocal
-    ? 'https://local.terra.money:3000'
+    ? `https://local.terra.money:${process.env.PORT || 3000}`
     : 'https://station.terra.money'
 
   win = new BrowserWindow(config)

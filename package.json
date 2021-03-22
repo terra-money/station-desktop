@@ -33,23 +33,20 @@
   "dependencies": {
     "@ledgerhq/hw-transport-node-hid": "^5.16.0",
     "@terra-money/ledger-terra-js": "^1",
-    "bech32": "^1.1.3",
+    "bech32": "^2.0.0",
     "bip32": "^2.0.4",
     "bip39": "^3.0.2",
     "secp256k1": "^4"
   },
   "devDependencies": {
     "@types/secp256k1": "^4.0.1",
-    "electron": "^9",
+    "electron": "^12.0.1",
     "electron-builder": "^22",
     "prettier": "^2.0.5"
   },
   "scripts": {
     "start": "LOCAL=true electron .",
     "build": "electron-builder -mw",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prebuild": "react-scripts build",
     "postinstall": "electron-builder install-app-deps",
     "prettier": "prettier --write public/**/*.js"
   },

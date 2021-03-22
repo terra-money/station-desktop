@@ -35,6 +35,7 @@ jobs:
         run: |
             sudo dpkg -i ext-deps/libudev1_245.4-4ubuntu3.5_amd64.deb
             sudo dpkg -i ext-deps/libudev-dev_245.4-4ubuntu3.5_amd64.deb
+            sudo apt install libusb-1.0-0 libusb-1.0-0-dev
 
       - name: Cache node modules
         uses: actions/cache@v2

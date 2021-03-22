@@ -33,7 +33,8 @@ jobs:
 
       - name: Install system dependencies
         run: |
-            sudo dpkg -i ext-deps/libudev-dev_245.4-4ubuntu3_amd64.deb
+            sudo dpkg -i ext-deps/libudev1_245.4-4ubuntu3.5_amd64.deb
+            sudo dpkg -i ext-deps/libudev-dev_245.4-4ubuntu3.5_amd64.deb
       
       - name: Install NPM dependencies
         run: yarn

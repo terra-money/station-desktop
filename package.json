@@ -22,9 +22,8 @@
   },
   "scripts": {
     "start": "LOCAL=true electron .",
-    "build-linux": "electron-builder -l --config build-linux.json",
-    "build-mac": "electron-builder -m --config build-mac.json",
-    "build-windows":"electron-builder -w --config build-windows.json",
+    "build-linux": "react-scripts build && electron-builder -l --config build-linux.json",
+    "build-macwin": "react-scripts build && electron-builder -mw --config build-macwin.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prebuild": "react-scripts build",

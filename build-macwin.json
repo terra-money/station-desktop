@@ -12,6 +12,9 @@
       "height": 370
     }
   },
+  "win": {
+    "target": "nsis"
+  },
   "files": ["build/**/*", "node_modules/**/*"],
   "directories": {
     "buildResources": "assets"

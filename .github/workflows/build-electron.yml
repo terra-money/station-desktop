@@ -32,7 +32,10 @@ jobs:
           architecture: x64
 
       - name: Install apt dependencies
-        run: sudo apt-get install libudev-dev
+        run: |
+            sudo apt upgrade
+            sudo apt update
+            sudo apt-get install libudev-dev
       
       - name: Install NPM dependencies
         run: yarn

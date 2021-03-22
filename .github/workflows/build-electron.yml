@@ -33,9 +33,9 @@ jobs:
 
       - name: Install apt dependencies
         run: |
-            sudo apt upgrade
             sudo apt update
-            sudo apt-get install libudev-dev
+            sudo apt upgrade
+            sudo apt install libudev-dev
       
       - name: Install NPM dependencies
         run: yarn

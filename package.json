@@ -42,7 +42,8 @@
     "@types/secp256k1": "^4.0.1",
     "electron": "^9",
     "electron-builder": "^22",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "react-scripts": "^4.0.3"
   },
   "scripts": {
     "start": "LOCAL=true electron .",

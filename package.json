@@ -4,31 +4,6 @@
   "description": "A desktop application to interact with Terra Core.",
   "author": "Terra <engineering@terra.money> (https://terra.money)",
   "license": "ISC",
-  "build": {
-    "appId": "money.terra.station",
-    "productName": "Terra Station",
-    "copyright": "Copyright © 2019-present ${author}",
-    "mac": {
-      "target": "dmg",
-      "category": "public.app-category.financial"
-    },
-    "dmg": {
-      "window": {
-        "width": 540,
-        "height": 370
-      }
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    }
-  },
   "main": "public/electron.js",
   "dependencies": {
     "@ledgerhq/hw-transport-node-hid": "^5.16.0",
@@ -47,7 +22,9 @@
   },
   "scripts": {
     "start": "LOCAL=true electron .",
-    "build": "electron-builder -mw",
+    "build-linux": "electron-builder -l --config build-linux.json",
+    "build-mac": "electron-builder -m --config build-mac.json",
+    "build-windows":"electron-builder -w --config build-windows.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prebuild": "react-scripts build",

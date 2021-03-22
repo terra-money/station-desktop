@@ -1,0 +1,19 @@
+{
+  "appId": "money.terra.station",
+  "productName": "Terra Station",
+  "copyright": "Copyright © 2019-present ${author}",
+  "mac": {
+    "target": "dmg",
+    "category": "public.app-category.financial"
+  },
+  "dmg": {
+    "window": {
+      "width": 540,
+      "height": 370
+    }
+  },
+  "files": ["build/**/*", "node_modules/**/*"],
+  "directories": {
+    "buildResources": "assets"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "appId": "money.terra.station",
+  "productName": "Terra Station",
+  "copyright": "Copyright © 2019-present ${author}",
+  "win": {
+    "target": "nsis"
+  },
+  "files": ["build/**/*", "node_modules/**/*"],
+  "directories": {
+    "buildResources": "assets"
+  }
+}

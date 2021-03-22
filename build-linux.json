@@ -1,0 +1,12 @@
+{
+  "appId": "money.terra.station",
+  "productName": "Terra Station",
+  "copyright": "Copyright © 2019-present ${author}",
+  "linux": {
+    "target": "deb"
+  },
+  "files": ["build/**/*", "node_modules/**/*"],
+  "directories": {
+    "buildResources": "assets"
+  }
+}

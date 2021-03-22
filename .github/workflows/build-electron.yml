@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build-linux:
     # The type of runner that the job will run on
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -33,7 +33,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-            sudo dpkg -i ext-deps/libudev-dev_237-3ubuntu10.38_amd64.deb
+            sudo dpkg -i ext-deps/libudev-dev_245.4-4ubuntu3_amd64.deb
       
       - name: Install NPM dependencies
         run: yarn

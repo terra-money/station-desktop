@@ -55,3 +55,37 @@ jobs:
       
       - name: Build for Linux
         run: yarn build-linux
+
+  # This workflow contains a single job called "build"
+  build-macwin:
+    # The type of runner that the job will run on
+    runs-on: macos-10.15
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: 14.15.4
+          architecture: x64
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      
+      - name: Install NPM dependencies
+        run: yarn
+      
+      - name: Build for Mac
+        run: yarn build-macwin

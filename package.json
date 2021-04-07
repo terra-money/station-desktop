@@ -11,6 +11,7 @@
     "bech32": "^2.0.0",
     "bip32": "^2.0.4",
     "bip39": "^3.0.2",
+    "electron-debug": "^3.2.0",
     "secp256k1": "^4"
   },
   "devDependencies": {

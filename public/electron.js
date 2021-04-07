@@ -1,5 +1,9 @@
 const path = require('path')
 const { app, shell, BrowserWindow, ipcMain } = require('electron')
+const debug = require('electron-debug')
+
+/* enable devtools hotkeys in Windows production builds */
+process.platform === "win32" && debug({ isEnabled: true, showDevTools: false })
 
 /* version */
 const version = '1.1.0'

@@ -1,3 +1,4 @@
+const path = require('path')
 const { app, shell, BrowserWindow, ipcMain } = require('electron')
 const debug = require('electron-debug')
 
@@ -18,7 +19,9 @@ const createWindow = () => {
     minHeight: 480,
     maxWidth: isLocal ? 3840 : 1440,
     titleBarStyle: 'hidden',
-    webPreferences: { nodeIntegration: true, webSecurity: false },
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    },
   }
 
   const url = isLocal

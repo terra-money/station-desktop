@@ -1,40 +1,9 @@
 {
   "name": "station-electron",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A desktop application to interact with Terra Core.",
   "author": "Terra <engineering@terra.money> (https://terra.money)",
   "license": "ISC",
-  "build": {
-    "appId": "money.terra.station",
-    "productName": "Terra Station",
-    "copyright": "Copyright © 2019-present ${author}",
-    "mac": {
-      "category": "public.app-category.financial",
-      "target": {
-        "target": "default",
-        "arch": [
-          "arm64",
-          "x64"
-        ]
-      }
-    },
-    "dmg": {
-      "window": {
-        "width": 540,
-        "height": 370
-      }
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "files": [
-      "public/**/*",
-      "node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    }
-  },
   "main": "public/electron.js",
   "dependencies": {
     "@ledgerhq/hw-transport-node-hid": "^5.16.0",
@@ -52,12 +21,10 @@
   },
   "scripts": {
     "start": "LOCAL=true electron .",
-    "build": "electron-builder -mw",
+    "build-linux": "electron-builder -l --config build-linux.json",
+    "build-macwin": "electron-builder -mw --config build-macwin.json",
     "postinstall": "electron-builder install-app-deps",
     "prettier": "prettier --write public/**/*.js"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [

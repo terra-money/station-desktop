@@ -6,10 +6,7 @@
     "category": "public.app-category.financial",
     "target": {
       "target": "dmg",
-      "arch": [
-        "arm64",
-        "x64"
-      ]
+      "arch": "universal"
     }
   },
   "dmg": {

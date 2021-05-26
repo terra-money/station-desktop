@@ -7,10 +7,13 @@
 
 In the project directory, you can run:
 
-### `yarn start`
+### `npm start`
 
 Runs the app in the development mode.
 
-### `yarn build`
-
+### Build
 Builds the app for production to the `dist` folder.
+
+* **Mac & Windows:** `npm run build-macwin`
+* **Linux:** `npm run build-linux`
+

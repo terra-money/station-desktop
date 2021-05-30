@@ -1,6 +1,6 @@
 # Terra Station Electron
 
-**Terra Station Electron** is a desktop application to sign and encrypt for [Terra Station](https://github.com/terra-project/station).
+**Terra Station Electron** is a desktop application to sign and encrypt for [Terra Station](https://github.com/terra-money/station).
 
 
 ## Available Scripts

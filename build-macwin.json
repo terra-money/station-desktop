@@ -4,6 +4,7 @@
   "copyright": "Copyright © 2019-present ${author}",
   "mac": {
     "category": "public.app-category.financial",
+    "hardenedRuntime": false,
     "target": {
       "target": "dmg",
       "arch": "universal"
@@ -18,7 +19,10 @@
   "win": {
     "target": "nsis"
   },
-  "files": ["public/**/*", "node_modules/**/*"],
+  "files": [
+    "public/**/*",
+    "node_modules/**/*"
+  ],
   "directories": {
     "buildResources": "assets"
   }

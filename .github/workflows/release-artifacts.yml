@@ -22,7 +22,7 @@ jobs:
 
       - name: Install Ubuntu deps
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: apt update && apt install libudev-dev libusb-1.0-0-dev
+        run: sudo apt update && sudo apt install libudev-dev libusb-1.0-0-dev
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1

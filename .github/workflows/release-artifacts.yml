@@ -31,7 +31,7 @@ jobs:
       - name: Build Macos
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          brew install libusb
+          brew install libusb-compat
           npm i
           npm run build-macwin
 

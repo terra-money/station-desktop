@@ -33,6 +33,25 @@ const createWindow = () => {
   win.loadURL(url)
   win.on('closed', () => (win = null))
 
+  win.webContents.setZoomFactor(1.0)
+  win.webContents
+    .setVisualZoomLevelLimits(1, 10)
+    .catch((err) => console.log(err))
+
+  const zoomFunction = (win, event, zoomDirection) => {
+    const currentZoom = win.webContents.getZoomFactor()
+    if (zoomDirection === "in") {
+        win.webContents.setZoomFactor(currentZoom + 0.1)
+    }
+    if (zoomDirection === "out" && currentZoom > 0.2) {
+        win.webContents.setZoomFactor(currentZoom - 0.1)
+    }
+  }
+
+  win.webContents.on("zoom-changed", (event, zoomDirection) => {
+    zoomFunction(win, event, zoomDirection)
+  })
+
   win.webContents.on('new-window', (e, url) => {
     e.preventDefault()
     shell.openExternal(url)

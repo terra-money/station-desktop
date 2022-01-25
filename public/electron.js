@@ -6,7 +6,7 @@ const debug = require('electron-debug')
 process.platform === "win32" && debug({ isEnabled: true, showDevTools: false })
 
 /* version */
-const version = '1.1.0'
+const version = '1.2.0'
 const isLocal = process.env.LOCAL
 
 /* window */
@@ -81,59 +81,4 @@ ipcMain.on('encrypt', (event, [msg, pass]) => {
 
 ipcMain.on('decrypt', (event, [msg, pass]) => {
   event.returnValue = decrypt(msg, pass)
-})
-
-/**
- * Ledger integration
- */
-async function callLedger(fn) {
-  const TransportNodeHid = require('@ledgerhq/hw-transport-node-hid').default
-
-  return await TransportNodeHid
-    .create(10000, 20000)
-    .then(async transport => {
-      const TerraApp = require('@terra-money/ledger-terra-js').default
-      const app = new TerraApp(transport)
-      await app.initialize()
-      const ret = await fn(app)
-      await transport.close()
-      return ret;
-    })
-    .catch(err => {
-      return {
-        error_message: err.message
-      }
-    })
-}
-
-ipcMain.on('ledger:initialize', async (event) => {
-  event.returnValue = await callLedger(app => app.initialize())
-})
-
-ipcMain.on('ledger:getInfo', async (event) => {
-  event.returnValue = await callLedger(app => app.getInfo())
-})
-
-ipcMain.on('ledger:getVersion', async (event) => {
-  event.returnValue = await callLedger(app => app.getVersion())
-})
-
-ipcMain.on('ledger:getDeviceInfo', async (event) => {
-  event.returnValue = await callLedger(app => app.getDeviceInfo())
-})
-
-ipcMain.on('ledger:getPublicKey', async (event, args) => {
-  event.returnValue = await callLedger(app => app.getPublicKey(...args))
-})
-
-ipcMain.on('ledger:getAddressAndPubKey', async (event, args) => {
-  event.returnValue = await callLedger(app => app.getAddressAndPubKey(...args))
-})
-
-ipcMain.on('ledger:showAddressAndPubKey', async (event, args) => {
-  event.returnValue = await callLedger(app => app.showAddressAndPubKey(...args))
-})
-
-ipcMain.on('ledger:sign', async (event, args) => {
-  event.returnValue = await callLedger(app => app.sign(...args))
 })

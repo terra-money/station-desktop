@@ -4,10 +4,16 @@
   "copyright": "Copyright © 2019-present ${author}",
   "mac": {
     "category": "public.app-category.financial",
-    "target": {
-      "target": "dmg",
-      "arch": "universal"
-    }
+    "target": [
+      {
+        "target": "dmg",
+        "arch": "arm64"
+      },
+      {
+        "target": "dmg",
+        "arch": "x64"
+      }
+    ]
   },
   "dmg": {
     "window": {

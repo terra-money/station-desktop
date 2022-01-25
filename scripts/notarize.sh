@@ -12,5 +12,5 @@ if [ -z "$NOTARIZE_PASSWORD" ] ; then
 fi
 
 echo "Notarization request is starting. Please be patient."
-xcrun altool --notarize-app -f "$1" --primary-bundle-id money.terra.station -u engineering@terra.money -p "${NOTARIZE_PASSWORD}"
+xcrun altool --notarize-app -f "$1" --primary-bundle-id money.terra.station -u ${NOTARIZE_USER} -p "${NOTARIZE_PASSWORD}"
 echo "Finished! Notarization result will be notified via e-mail after a few minutes."

@@ -19,6 +19,7 @@ function encrypt(plainText, pass) {
     // append them to the ciphertext for use  in decryption
     return salt.toString('hex') + iv.toString('hex') + encryptedText
   } catch (error) {
+    console.error(error.message)
     return ''
   }
 }
@@ -38,6 +39,7 @@ function decrypt(transitmessage, pass) {
 
     return decryptedText
   } catch (error) {
+    console.error(error.message)
     return ''
   }
 }

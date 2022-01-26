@@ -24,8 +24,5 @@
   "win": {
     "target": "nsis"
   },
-  "files": ["public/**/*", "node_modules/**/*"],
-  "directories": {
-    "buildResources": "assets"
-  }
+  "files": ["public/**/*", "node_modules/**/*"]
 }

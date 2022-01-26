@@ -1,10 +1,14 @@
 {
-  "name": "station-electron",
+  "name": "station-desktop",
   "version": "1.2.0",
   "description": "Wallet for Terra Blockchain",
   "author": "Terraform Labs Pte. Ltd. <engineering@terra.money> (https://terra.money)",
   "license": "ISC",
   "main": "public/electron.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/terra-money/station-desktop.git"
+  },
   "dependencies": {
     "bech32": "^2.0.0",
     "bip32": "^2.0.4",

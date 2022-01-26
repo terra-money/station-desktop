@@ -1,27 +1,29 @@
 {
   "name": "station-electron",
   "version": "1.2.0",
-  "description": "A desktop application to interact with Terra Core.",
-  "author": "Terra <engineering@terra.money> (https://terra.money)",
+  "description": "Wallet for Terra Blockchain",
+  "author": "Terraform Labs Pte. Ltd. <engineering@terra.money> (https://terra.money)",
   "license": "ISC",
   "main": "public/electron.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/terra-money/station-desktop.git"
+  },
   "dependencies": {
-    "@ledgerhq/hw-transport-node-hid": "^5.16.0",
-    "@terra-money/ledger-terra-js": "^1",
     "bech32": "^2.0.0",
     "bip32": "^2.0.4",
     "bip39": "^3.0.2",
     "electron-debug": "^3.2.0",
-    "secp256k1": "^4"
+    "secp256k1": "^4.0.3"
   },
   "devDependencies": {
     "@types/secp256k1": "^4.0.1",
-    "electron": "^13.0.1",
+    "electron": "^16.0.7",
     "electron-builder": "^22",
     "prettier": "^2.0.5"
   },
   "scripts": {
-    "start": "LOCAL=true electron .",
+    "start": "electron .",
     "build-linux": "electron-builder -l --config build-linux.json",
     "build-macwin": "electron-builder -mw --config build-macwin.json",
     "postinstall": "electron-builder install-app-deps",

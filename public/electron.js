@@ -3,7 +3,7 @@ const { app, shell, BrowserWindow, ipcMain } = require('electron')
 const debug = require('electron-debug')
 
 /* enable devtools hotkeys in Windows production builds */
-process.platform === "win32" && debug({ isEnabled: true, showDevTools: false })
+process.platform === 'win32' && debug({ isEnabled: true, showDevTools: false })
 
 /* version */
 const version = '1.2.0'
@@ -20,12 +20,12 @@ const createWindow = () => {
     maxWidth: isLocal ? 3840 : 1440,
     titleBarStyle: 'hidden',
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
     },
   }
 
   const url = isLocal
-    ? `https://local.terra.money:${process.env.PORT || 3000}`
+    ? `https://localhost:${process.env.PORT || 3000}`
     : 'https://station.terra.money'
 
   win = new BrowserWindow(config)
@@ -40,15 +40,15 @@ const createWindow = () => {
 
   const zoomFunction = (win, event, zoomDirection) => {
     const currentZoom = win.webContents.getZoomFactor()
-    if (zoomDirection === "in") {
-        win.webContents.setZoomFactor(currentZoom + 0.1)
+    if (zoomDirection === 'in') {
+      win.webContents.setZoomFactor(currentZoom + 0.1)
     }
-    if (zoomDirection === "out" && currentZoom > 0.2) {
-        win.webContents.setZoomFactor(currentZoom - 0.1)
+    if (zoomDirection === 'out' && currentZoom > 0.2) {
+      win.webContents.setZoomFactor(currentZoom - 0.1)
     }
   }
 
-  win.webContents.on("zoom-changed", (event, zoomDirection) => {
+  win.webContents.on('zoom-changed', (event, zoomDirection) => {
     zoomFunction(win, event, zoomDirection)
   })
 

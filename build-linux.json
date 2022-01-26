@@ -3,7 +3,7 @@
   "productName": "Terra Station",
   "copyright": "Copyright © 2019-present ${author}",
   "linux": {
-    "target": "deb",
+    "target": [ "deb", "rpm" ],
     "category": "Utility"
   },
   "files": ["public/**/*", "node_modules/**/*"]

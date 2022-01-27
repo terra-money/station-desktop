@@ -2,7 +2,7 @@
 
 Standalone desktop wallet application for [Terra Station](https://github.com/terra-money/station).
 
-## Prerequisits
+## Prerequisites
 * Install Node.js LTS (https://nodejs.org/en/)
 * Run `npm install` in the project directory
 

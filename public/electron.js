@@ -18,7 +18,7 @@ const createWindow = () => {
     minWidth: 320,
     minHeight: 480,
     maxWidth: isLocal ? 3840 : 1440,
-    titleBarStyle: 'hidden',
+    titleBarStyle: isLocal ? 'default' : 'hidden',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },

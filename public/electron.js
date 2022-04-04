@@ -1,5 +1,5 @@
 const path = require('path')
-const { app, shell, BrowserWindow, ipcMain } = require('electron')
+const { app, shell, BrowserWindow, ipcMain, nativeImage } = require('electron')
 const debug = require('electron-debug')
 
 /* enable devtools hotkeys in Windows production builds */
@@ -8,6 +8,8 @@ process.platform === 'win32' && debug({ isEnabled: true, showDevTools: false })
 /* version */
 const version = '1.2.0'
 const isLocal = process.env.LOCAL
+
+const appIcon = path.join(__dirname, '..', 'build', process.platform.match('win32') ? 'icon.ico' : 'icon.png')
 
 /* window */
 let win
@@ -22,6 +24,7 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
+    icon: nativeImage.createFromPath(appIcon)
   }
 
   const url = isLocal
@@ -56,6 +59,7 @@ const createWindow = () => {
     e.preventDefault()
     shell.openExternal(url)
   })
+
 }
 
 const onCertError = (event, webContents, url, error, certificate, callback) => {

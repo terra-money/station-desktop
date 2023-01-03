@@ -1,6 +1,6 @@
 {
   "appId": "money.terra.station",
-  "productName": "Terra Station",
+  "productName": "Terra Station Legacy",
   "copyright": "Copyright © 2019-present ${author}",
   "mac": {
     "category": "public.app-category.financial",

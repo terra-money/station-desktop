@@ -6,7 +6,7 @@ const debug = require('electron-debug')
 process.platform === 'win32' && debug({ isEnabled: true, showDevTools: false })
 
 /* version */
-const version = '1.2.0'
+const version = '1.2.0-legacy'
 const isLocal = process.env.LOCAL
 
 /* window */
@@ -26,7 +26,7 @@ const createWindow = () => {
 
   const url = isLocal
     ? `https://localhost:${process.env.PORT || 3000}`
-    : 'https://station.terra.money'
+    : 'https://legacy-station.terra.money'
 
   win = new BrowserWindow(config)
   win.removeMenu()

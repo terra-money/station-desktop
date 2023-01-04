@@ -26,7 +26,7 @@ const createWindow = () => {
 
   const url = isLocal
     ? `https://localhost:${process.env.PORT || 3000}`
-    : 'https://legacy-station.terra.money'
+    : 'https://station-classic.terra.money'
 
   win = new BrowserWindow(config)
   win.removeMenu()

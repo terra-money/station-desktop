@@ -1,6 +1,6 @@
 {
   "appId": "money.terra.station",
-  "productName": "Terra Station Legacy",
+  "productName": "Station Classic",
   "copyright": "Copyright © 2019-present ${author}",
   "linux": {
     "target": [ "deb", "rpm" ],

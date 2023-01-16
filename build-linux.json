@@ -1,6 +1,6 @@
 {
   "appId": "money.terra.station",
-  "productName": "Terra Station",
+  "productName": "Station",
   "copyright": "Copyright © 2019-present ${author}",
   "linux": {
     "target": [ "deb", "rpm" ],

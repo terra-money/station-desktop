@@ -6,5 +6,5 @@
     "target": [ "deb", "rpm" ],
     "category": "Utility"
   },
-  "files": ["public/**/*", "node_modules/**/*"]
+  "files": ["public/**/*", "node_modules/**/*", "build/icon.*"]
 }

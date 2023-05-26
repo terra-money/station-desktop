@@ -24,6 +24,7 @@
   },
   "scripts": {
     "start": "electron .",
+    "dev": "export LOCAL=true && electron .",
     "build-linux": "electron-builder -l --config build-linux.json",
     "build-macwin": "electron-builder -mw --config build-macwin.json",
     "postinstall": "electron-builder install-app-deps",
